@@ -79,3 +79,26 @@ def get_zillow_data():
         df = new_zillow()
         df.to_csv('zillow.csv')
     return df
+
+def wrangle_zillow():
+    '''
+    Read zillow csv file into a pandas DataFrame,
+    only returns desired columns and single family residential properties,
+    drop any rows with Null values, drop duplicates,
+    return cleaned zillow DataFrame.
+    '''
+    # Acquire data from csv file.
+    df = pd.read_csv('zillow.csv')
+    
+    # Drop nulls
+    df = df.dropna()
+    
+    # Drop duplicates
+    df = df.drop_duplicates()
+    
+    return df
+
+
+
+
+

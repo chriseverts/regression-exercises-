@@ -129,3 +129,23 @@ def remove_outliers(df, k, col_list):
         
     return df
 
+def get_mall_customers():
+    '''
+    This function gets the tenure information from the telco data set for customers with 2 year contracts
+    '''
+    file_name = 'mall_customers.csv'
+    if os.path.isfile(file_name):
+        return pd.read_csv(file_name)
+    
+    else:
+        query =  '''
+        select *
+        from customers
+        '''
+    df = pd.read_sql(query, get_connection('mall_customers'))  
+    
+    #replace white space with nulls
+    df = df.replace(r'^\s*$', np.NaN, regex=True)
+    
+    df.to_csv(file_name, index = False)
+    return df

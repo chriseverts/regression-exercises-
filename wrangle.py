@@ -130,22 +130,28 @@ def remove_outliers(df, k, col_list):
     return df
 
 def get_mall_customers():
-    '''
-    This function gets the tenure information from the telco data set for customers with 2 year contracts
-    '''
+    
     file_name = 'mall_customers.csv'
     if os.path.isfile(file_name):
         return pd.read_csv(file_name)
     
     else:
-        query =  '''
-        select *
-        from customers
-        '''
-    df = pd.read_sql(query, get_connection('mall_customers'))  
+        sql_query =  '''select * from customers'''
+    df = pd.read_sql(sql_query, get_connection('mall_customers'))  
     
     #replace white space with nulls
     df = df.replace(r'^\s*$', np.NaN, regex=True)
     
     df.to_csv(file_name, index = False)
     return df
+
+
+def split_mall_customers(df):
+    '''
+    Takes in a cleaned df of mall_customers data and splits the data appropriatly into train, validate, and test.
+    '''
+    
+    train_val, test = train_test_split(df, train_size =  0.8, random_state = 123)
+    train, validate = train_test_split(train_val, train_size =  0.7, random_state = 123)
+    return train, validate, test
+

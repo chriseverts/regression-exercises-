@@ -4,3 +4,4 @@ env.py
 .ipynb_checkpoints
 __pycache__
 telco_charge.csv
+mall_customers.csv
